@@ -4,20 +4,17 @@ class Queue{
     int *arr;
     int front,rear,size;
     public:
-    //constructor
+   
     Queue(int n){
         arr=new int[n];
         front=-1,rear=-1;
         size=n;
     }
-    //check queue is empty or not
 bool IsEmpty(){
-   // cout<<"khali hai khali"<<endl;
     return front==-1;
 }
-//check queue is full or not
-bool IsFull(){          //for circular queue (rear+1)%size==front;
-    return rear==size-1;   //if we assign value then output will be :queue overflow
+bool IsFull(){          
+    return rear==size-1;  
 }
 void push( int x){
     if(IsEmpty()){
