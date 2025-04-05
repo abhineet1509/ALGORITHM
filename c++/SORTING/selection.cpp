@@ -1,29 +1,41 @@
-#include<iostream>
-#include<vector>
+#include <iostream>
 using namespace std;
-void bubblesort(int n,vector<int> v){
 
-    for(int i=0;i<n;i++){
-        int index=i;
-        for(int j=i;j<n-1;j++){
-            if(v[index]>v[i]){
-            index=j;
-            }}
-        int temp=v[index];
-        v[index]=v[i];
-        v[i]=temp;
+void selectionSort(int arr[], int n) {
+    for (int i = 0; i < n - 1; i++) {
+        int minIndex = i;
+
+        for (int j = i + 1; j < n; j++) {
+            if (arr[j] < arr[minIndex]) {
+                minIndex = j;
+            }
+        }
+
+        swap(arr[i], arr[minIndex]);
     }
-for(int i=0;i<n;i++){  // we can also use print function
-       cout<<v[i]<<" ";
- }
 }
-int main(){
+
+void printArray(int arr[], int n) {
+    for (int i = 0; i < n; i++)
+        cout << arr[i] << " ";
+    cout << endl;
+}
+
+int main() {
     int n;
-    cin>>n;
-   vector<int> v(n);
-   for(int i=0;i<n;i++){
-    cin>>v[i];
-   }
-    bubblesort(n,v);
+    cout << "Enter the size of the array: ";
+    cin >> n;
+
+    int arr[n];
+    cout << "Enter " << n << " elements: ";
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+
+    selectionSort(arr, n);
+
+    cout << "Sorted array: ";
+    printArray(arr, n);
+
     return 0;
 }

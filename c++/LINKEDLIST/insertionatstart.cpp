@@ -1,38 +1,56 @@
-#include<iostream>
+#include <iostream>
 using namespace std;
-class node{
-    public:
+
+class Node {
+public:
     int data;
-    node *next;
-    node(int value){
-        data=value;
-        next=NULL;
+    Node* next;
+
+    Node(int value) {
+        data = value;
+        next = nullptr;
     }
 };
-int main(){
-    node *head;
-    head=NULL;
-    int n;
-    cin>>n;
-    int arr[n];
-    for(int i=0;i<n;i++){
-        cin>>arr[i];
+
+class LinkedList {
+private:
+    Node* head;
+
+public:
+    LinkedList() {
+        head = nullptr;
     }
 
-    for(int i=0;i<5;i++){
-        if(head==NULL){
-            head=new node(arr[i]);
-        }
-        else{
-            node *temp;
-            temp=new node(arr[i]);
-            temp->next=head;
-            head=temp;
-        }
+    // Insert at the start
+    void insertAtStart(int value) {
+        Node* newNode = new Node(value);
+        newNode->next = head;
+        head = newNode;
+        cout << value << " inserted at the start.\n";
     }
-    node *temp=head;
-    while(temp!=NULL){
-        cout<<temp->data<<"->";
-        temp=temp->next;
+
+    // Display the linked list
+    void display() {
+        if (head == nullptr) {
+            cout << "List is empty.\n";
+            return;
+        }
+        Node* temp = head;
+        cout << "Linked List: ";
+        while (temp != nullptr) {
+            cout << temp->data << " -> ";
+            temp = temp->next;
+        }
+        cout << "NULL\n";
     }
+};
+
+int main() {
+    LinkedList list;
+    list.insertAtStart(10);
+    list.insertAtStart(20);
+    list.insertAtStart(30);
+    list.display();
+
+    return 0;
 }

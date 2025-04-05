@@ -18,7 +18,7 @@ public:
     }
     void push(int value) {
         Node* newNode = new Node(value);
-        newNode->next = top;
+        newNode->next =  top ;
         top = newNode;
     }
     int pop() {
