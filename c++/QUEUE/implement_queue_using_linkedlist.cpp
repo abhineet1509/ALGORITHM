@@ -1,63 +1,105 @@
 #include <iostream>
 using namespace std;
-class Node {
-public:
+
+// Node structure for the queue
+struct Node {
     int data;
     Node* next;
-    Node(int value) {
-        data=value;
-        next=NULL;
-    }
+
+    Node(int value) : data(value), next(nullptr) {}
 };
 
+// Queue class using linked list
 class Queue {
 private:
     Node* front;
     Node* rear;
+
 public:
-    Queue() {
-        front=rear=NULL;
+    // Constructor
+    Queue() : front(nullptr), rear(nullptr) {}
+
+    // Destructor
+    ~Queue() {
+        while (!isEmpty()) {
+            dequeue();
+        }
     }
 
+    // Check if the queue is empty
+    bool isEmpty() const {
+        return front == nullptr;
+    }
+
+    // Enqueue operation
     void enqueue(int value) {
         Node* newNode = new Node(value);
-        if (rear == NULL) {
+        if (isEmpty()) {
             front = rear = newNode;
-            return;
+        } else {
+            rear->next = newNode;
+            rear = newNode;
         }
-        rear->next = newNode;
-        rear = newNode;
+        cout << value << " enqueued to the queue." << endl;
     }
 
-    void dequeue() {
-        if (front == NULL) return;
+    // Dequeue operation
+    int dequeue() {
+        if (isEmpty()) {
+            cout << "Queue is empty. Cannot dequeue." << endl;
+            return -1;
+        }
+        int result = front->data;
         Node* temp = front;
         front = front->next;
-        if (front == NULL) rear = NULL;
         delete temp;
+
+        // If front becomes null
+        if (front == nullptr) {
+            rear = nullptr;
+        }
+
+        return result;
     }
 
-    int peek() {
-        if (front == NULL) throw "Queue is empty";
+    // Peek front element
+    int peek() const {
+        if (isEmpty()) {
+            cout << "Queue is empty." << endl;
+            return -1;
+        }
         return front->data;
     }
 
-    bool isEmpty() {
-        return front == NULL;
+    // Display queue elements
+    void display() const {
+        if (isEmpty()) {
+            cout << "Queue is empty." << endl;
+            return;
+        }
+
+        cout << "Queue elements: ";
+        Node* current = front;
+        while (current != nullptr) {
+            cout << current->data << " ";
+            current = current->next;
+        }
+        cout << endl;
     }
 };
 
 int main() {
     Queue q;
-   int n,data;
-   cout<<"Enter the number of elements in the queue:";
-   cin>>n;
-   for(int i=0;i<n;i++){
-    cin>>data;
-    q.enqueue(data);
-   }
-    cout << "Front element is: " << q.peek() << endl;
-    q.dequeue();
-    cout << "Front element after dequeue is: " << q.peek() << endl;
+
+    q.enqueue(10);
+    q.enqueue(20);
+    q.enqueue(30);
+    q.display();
+
+    cout << "Dequeued: " << q.dequeue() << endl;
+    q.display();
+
+    cout << "Front element: " << q.peek() << endl;
+
     return 0;
 }

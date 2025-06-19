@@ -2,8 +2,6 @@
 #include <stack>
 
 using namespace std;
-
-// Insert element at bottom of the stack
 void insertAtBottom(stack<int> &s, int value) {
     if (s.empty()) {
         s.push(value);
@@ -15,7 +13,7 @@ void insertAtBottom(stack<int> &s, int value) {
     s.push(temp);
 }
 
-// Function to reverse the stack using recursion
+
 void reverseStack(stack<int> &s) {
     if (s.empty()) return;
     int temp = s.top();
@@ -24,7 +22,6 @@ void reverseStack(stack<int> &s) {
     insertAtBottom(s, temp);
 }
 
-// Function to display stack contents
 void displayStack(stack<int> s) {
     cout << "Stack elements: ";
     while (!s.empty()) {

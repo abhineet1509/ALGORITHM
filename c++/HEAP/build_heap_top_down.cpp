@@ -18,16 +18,6 @@ void heapify(int arr[], int n, int i) {
     }
 }
 
-void insertToHeap(int arr[], int& n, int value) {
-    n++;
-    int i = n - 1;
-    arr[i] = value;
-    while (i != 0 && arr[(i - 1) / 2] < arr[i]) {
-        swap(arr[i], arr[(i - 1) / 2]);
-        i = (i - 1) / 2;
-    }
-}
-
 void buildHeap(int arr[], int n) {
     for (int i = 1; i < n; i++)
         heapify(arr, i + 1, 0);

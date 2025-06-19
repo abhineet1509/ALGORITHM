@@ -2,21 +2,14 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "type": "java",
-      "name": "firstprogram",
-      "request": "launch",
-      "mainClass": "firstprogram",
-      "projectName": "ALGORITHM_5404f5f6"
-    },
-    {
       "name": "C/C++ Runner: Debug Session",
       "type": "cppdbg",
       "request": "launch",
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "d:/ALGORITHM/c++/LINKEDLIST",
-      "program": "d:/ALGORITHM/c++/LINKEDLIST/build/Debug/outDebug",
+      "cwd": "d:/ALGORITHM/PYTHON",
+      "program": "d:/ALGORITHM/PYTHON/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

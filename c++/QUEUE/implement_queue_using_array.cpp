@@ -1,61 +1,92 @@
-#include<iostream>
+#include <iostream>
 using namespace std;
-class Queue{
-    int *arr;
-    int front,rear,size;
-    public:
-   
-    Queue(int n){
-        arr=new int[n];
-        front=-1,rear=-1;
-        size=n;
+
+class Queue {
+private:
+    int* arr;
+    int front;
+    int rear;
+    int capacity;
+
+public:
+    // Constructor
+    Queue(int size) {
+        arr = new int[size];
+        capacity = size;
+        front = 0;
+        rear = -1;
     }
-bool IsEmpty(){
-    return front==-1;
-}
-bool IsFull(){          
-    return rear==size-1;  
-}
-void push( int x){
-    if(IsEmpty()){
-        cout<<x<<" pushed into queue first element"<<endl;
-        front=rear=0;
-        arr[0]=x;
+
+    // Destructor
+    ~Queue() {
+        delete[] arr;
     }
-    else if(IsFull()){
-        cout<<"queue is overloaded";
-        return;
+
+    // Check if the queue is empty
+    bool isEmpty() const {
+        return front > rear;
     }
-    else {
-        rear=rear+1;   //for circular queue rear=(rear+1)%size;
-        cout<<x<<" pushed into the queue";
-        arr[rear]=x;
+
+    // Check if the queue is full
+    bool isFull() const {
+        return rear == capacity - 1;
     }
-}
-void pop(){
-    if(IsEmpty()){
-     cout<<"queue is underflow";
+
+    // Enqueue operation
+    void enqueue(int value) {
+        if (isFull()) {
+            cout << "Queue is full. Cannot enqueue " << value << "." << endl;
+            return;
+        }
+        arr[++rear] = value;
+        cout << value << " enqueued to queue." << endl;
     }
-    else {
-        if(front==rear)  { front=rear=-1;}
-        else front=front+1;   //for circular queue front=(front+1)%size;
+
+    // Dequeue operation
+    int dequeue() {
+        if (isEmpty()) {
+            cout << "Queue is empty. Cannot dequeue." << endl;
+            return -1;
+        }
+        return arr[front++];
     }
-}
-int start(){
-    if(IsEmpty()){
-        cout<<"queue is empty";
-        return -1;
+
+    // Peek front element
+    int peek() const {
+        if (isEmpty()) {
+            cout << "Queue is empty." << endl;
+            return -1;
+        }
+        return arr[front];
     }
-    else { return arr[front];}
-}
+
+    // Display queue elements
+    void display() const {
+        if (isEmpty()) {
+            cout << "Queue is empty." << endl;
+            return;
+        }
+
+        cout << "Queue elements: ";
+        for (int i = front; i <= rear; ++i) {
+            cout << arr[i] << " ";
+        }
+        cout << endl;
+    }
 };
-int main(){
+
+int main() {
     Queue q(5);
-   q.push(3);
-   q.push(14);
-   q.push(19);
-   q.pop();       //3 time pop give output queue is empty
-   q.pop(); 
-   q.pop();  //we didn't give cout
-   cout<<q.start()<<endl;
+
+    q.enqueue(10);
+    q.enqueue(20);
+    q.enqueue(30);
+    q.display();
+
+    cout << "Dequeued: " << q.dequeue() << endl;
+    q.display();
+
+    cout << "Front element: " << q.peek() << endl;
+
+    return 0;
 }
