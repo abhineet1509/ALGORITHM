@@ -6,37 +6,25 @@ public:
     int data;
     Node* next;
 
-    Node(int value) {
-        data = value;
+    // Constructor
+    Node(int val) {
+        data = val;
         next = nullptr;
     }
 };
 
 class LinkedList {
-private:
-    Node* head;
-
 public:
-    LinkedList() {
-        head = nullptr;
-    }
-
-    // Insert at the start
-    void insertAtStart(int value) {
-        Node* newNode = new Node(value);
-        newNode->next = head;
+    // Insert a new node at the head of the list
+    void insertAtHead(Node*& head, int val) {
+        Node* newNode = new Node(val);
+        newNode->next = head; // Handles both base and general case
         head = newNode;
-        cout << value << " inserted at the start.\n";
     }
 
-    // Display the linked list
-    void display() {
-        if (head == nullptr) {
-            cout << "List is empty.\n";
-            return;
-        }
+    // Print the entire list
+    void printList(Node* head) {
         Node* temp = head;
-        cout << "Linked List: ";
         while (temp != nullptr) {
             cout << temp->data << " -> ";
             temp = temp->next;
@@ -46,11 +34,14 @@ public:
 };
 
 int main() {
+    Node* head = nullptr;      // Initially empty list
     LinkedList list;
-    list.insertAtStart(10);
-    list.insertAtStart(20);
-    list.insertAtStart(30);
-    list.display();
+
+    list.insertAtHead(head, 30); // Base case (empty list)
+    list.insertAtHead(head, 20);
+    list.insertAtHead(head, 10);
+
+    list.printList(head);       // Output: 10 -> 20 -> 30 -> NULL
 
     return 0;
 }

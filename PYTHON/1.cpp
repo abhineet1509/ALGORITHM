@@ -1,45 +1,45 @@
-#include <iostream>
-#include <vector>
-#include <tuple>
+#include <bits/stdc++.h>
 using namespace std;
 
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
+bool isValid(const vector<int>& sub, int k) {
+    if (sub.size() < 2) return false;
+    int mod = (sub[0] + sub[1]) % k;
+    for (int i = 1; i < sub.size() - 1; ++i) {
+        if ((sub[i] + sub[i + 1]) % k != mod)
+            return false;
+    }
+    return true;
+}
 
-    int t;
-    cin >> t;
+int longestValidSubsequence(vector<int>& nums, int k) {
+    int n = nums.size();
+    int maxLen = 0;
 
-    while (t--) {
-        int n;
-        cin >> n;
-        vector<tuple<int, int, int>> ops;
-
-        // Reverse entire first row
-        ops.push_back(make_tuple(1, 1, n));
-
-        // Apply shifts to rows 2 to n
-        for (int row = 2; row <= n; ++row) {
-            int front_span = n - row + 1;
-            int back_start = front_span + 1;
-
-            // Reverse front part
-            ops.push_back(make_tuple(row, 1, front_span));
-
-            // Reverse back part if valid
-            if (back_start <= n) {
-                ops.push_back(make_tuple(row, back_start, n));
+    // Generate all subsets (2^n possibilities)
+    for (int mask = 0; mask < (1 << n); ++mask) {
+        vector<int> sub;
+        for (int i = 0; i < n; ++i) {
+            if (mask & (1 << i)) {
+                sub.push_back(nums[i]);
             }
         }
 
-        // Output results
-        cout << ops.size() << '\n';
-        for (size_t i = 0; i < ops.size(); ++i) {
-            int row_id, left, right;
-            tie(row_id, left, right) = ops[i];
-            cout << row_id << ' ' << left << ' ' << right << '\n';
+        if (isValid(sub, k)) {
+            maxLen = max(maxLen, (int)sub.size());
         }
     }
+
+    return maxLen;
+}
+
+int main() {
+    vector<int> nums1 = {1, 2, 3, 4, 5};
+    int k1 = 2;
+    cout << "Longest Valid Subsequence Length: " << longestValidSubsequence(nums1, k1) << endl;
+
+    vector<int> nums2 = {1, 4, 2, 3, 1, 4};
+    int k2 = 3;
+    cout << "Longest Valid Subsequence Length: " << longestValidSubsequence(nums2, k2) << endl;
 
     return 0;
 }
