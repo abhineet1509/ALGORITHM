@@ -1,45 +1,40 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-bool isValid(const vector<int>& sub, int k) {
-    if (sub.size() < 2) return false;
-    int mod = (sub[0] + sub[1]) % k;
-    for (int i = 1; i < sub.size() - 1; ++i) {
-        if ((sub[i] + sub[i + 1]) % k != mod)
-            return false;
-    }
-    return true;
-}
+int minPatches(const vector<long long>& A, long long B) {
+    long long miss = 1;    // smallest sum we cannot form
+    int patches = 0;
+    size_t i = 0, n = A.size();
 
-int longestValidSubsequence(vector<int>& nums, int k) {
-    int n = nums.size();
-    int maxLen = 0;
-
-    // Generate all subsets (2^n possibilities)
-    for (int mask = 0; mask < (1 << n); ++mask) {
-        vector<int> sub;
-        for (int i = 0; i < n; ++i) {
-            if (mask & (1 << i)) {
-                sub.push_back(nums[i]);
-            }
-        }
-
-        if (isValid(sub, k)) {
-            maxLen = max(maxLen, (int)sub.size());
+    while (miss <= B) {
+        if (i < n && A[i] <= miss) {
+            miss += A[i++];
+        } else {
+            miss += miss;
+            patches++;
         }
     }
-
-    return maxLen;
+    return patches;
 }
 
 int main() {
-    vector<int> nums1 = {1, 2, 3, 4, 5};
-    int k1 = 2;
-    cout << "Longest Valid Subsequence Length: " << longestValidSubsequence(nums1, k1) << endl;
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
 
-    vector<int> nums2 = {1, 4, 2, 3, 1, 4};
-    int k2 = 3;
-    cout << "Longest Valid Subsequence Length: " << longestValidSubsequence(nums2, k2) << endl;
+    // Read the sorted array A from the first line
+    string line;
+    if (!getline(cin, line)) return 0;
+    istringstream iss(line);
+    vector<long long> A;
+    long long x;
+    while (iss >> x) {
+        A.push_back(x);
+    }
 
+    // Then read B
+    long long B;
+    if (!(cin >> B)) return 0;
+
+    cout << minPatches(A, B) << "\n";
     return 0;
 }

@@ -12,7 +12,7 @@ ListNode* swapPairs(ListNode* head) {
     if (!head || !head->next) return head;
 
     ListNode dummy(0);
-    dummy.next = head;
+    dummy.next = head;  // Dummy node to simplify edge cases
     ListNode* prev = &dummy;
 
     while (prev->next && prev->next->next) {

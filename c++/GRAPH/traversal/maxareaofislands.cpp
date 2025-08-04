@@ -1,41 +1,32 @@
-#include <iostream>
 #include <vector>
-#include <queue>
+#include <algorithm>
 using namespace std;
 
 class Solution {
 public:
+    int dfs(vector<vector<int>>& grid, int i, int j) {
+        // boundary + water check
+        if (i < 0 || j < 0 || i >= grid.size() || j >= grid[0].size() || grid[i][j] == 0)
+            return 0;
+
+        grid[i][j] = 0; // mark visited
+        int area = 1;
+
+        // explore neighbors
+        area += dfs(grid, i + 1, j);
+        area += dfs(grid, i - 1, j);
+        area += dfs(grid, i, j + 1);
+        area += dfs(grid, i, j - 1);
+
+        return area;
+    }
+
     int maxAreaOfIsland(vector<vector<int>>& grid) {
         int maxArea = 0;
-        int n = grid.size();
-        int m = grid[0].size();
-
-        vector<pair<int, int>> directions = {{1,0},{-1,0},{0,1},{0,-1}};
-
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
+        for (int i = 0; i < grid.size(); i++) {
+            for (int j = 0; j < grid[0].size(); j++) {
                 if (grid[i][j] == 1) {
-                    int area = 0;
-                    queue<pair<int, int>> q;
-                    q.push({i, j});
-                    grid[i][j] = 0;
-
-                    while (!q.empty()) {
-                        auto [x, y] = q.front(); q.pop();
-                        area++;
-
-                        for (auto [dx, dy] : directions) {
-                            int nx = x + dx;
-                            int ny = y + dy;
-
-                            if (nx >= 0 && ny >= 0 && nx < n && ny < m && grid[nx][ny] == 1) {
-                                grid[nx][ny] = 0;
-                                q.push({nx, ny});
-                            }
-                        }
-                    }
-
-                    maxArea = max(maxArea, area);
+                    maxArea = max(maxArea, dfs(grid, i, j));
                 }
             }
         }

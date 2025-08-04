@@ -6,7 +6,7 @@ using namespace std;
 bool isBipartite(vector<vector<int>> &graph, int n) {
     vector<int> color(n, -1); // where n is the number of vertices
 
-    for (int i = 0; i < n; ++i) {
+    for (int i = 0; i < n; ++i) {   // disconnected components 
         if (color[i] == -1) { // Check unvisited nodes
             queue<int> q;
             q.push(i);

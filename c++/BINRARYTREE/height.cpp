@@ -1,40 +1,45 @@
-#include<iostream>
+#include <iostream>
 #include <algorithm>
 using namespace std;
 
-class Node {
-public:
-    int data;
-    Node *left, *right;
-    Node(int value) {
-        data = value;
-        left = right = NULL;
-    }
+struct TreeNode {
+    int val;
+    TreeNode* left;
+    TreeNode* right;
+    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
 };
 
-int height(Node *root) {
-    if (root == NULL) {
-        return 0;
-    }
-    return 1 + max(height(root->left), height(root->right));
+// Deepest Height: max depth from root to any leaf
+int maxDepth(TreeNode* root) {
+    if (!root) return 0;
+    return 1 + max(maxDepth(root->left), maxDepth(root->right));
 }
 
-Node* BinaryTree() {
-    int x;
-    cin >> x;
-    if (x == -1) return NULL;
-    Node* temp = new Node(x);
-    cout << "Enter the left child of " << x << endl;
-    temp->left = BinaryTree();
-    cout << "Enter the right child of " << x << endl;
-    temp->right = BinaryTree();
-    return temp;
+// Shortest Height: min depth from root to any leaf
+int minDepth(TreeNode* root) {
+    if (!root) return 0;
+    // If one of the subtrees is NULL, we take the other path
+    if (!root->left) return 1 + minDepth(root->right);
+    if (!root->right) return 1 + minDepth(root->left);
+    return 1 + min(minDepth(root->left), minDepth(root->right));
 }
 
 int main() {
-    cout << "Enter the root node: ";
-    Node *root = BinaryTree();
-    int treeHeight = height(root);
-    cout << "Height of the binary tree: " << treeHeight << endl;
+    /*
+        Example Tree:
+             1
+            / \
+           2   3
+              /
+             4
+    */
+    TreeNode* root = new TreeNode(1);
+    root->left = new TreeNode(2);
+    root->right = new TreeNode(3);
+    root->right->left = new TreeNode(4);
+
+    cout << "Deepest Height (Max Depth): " << maxDepth(root) << endl;
+    cout << "Shortest Height (Min Depth): " << minDepth(root) << endl;
+
     return 0;
 }

@@ -21,8 +21,6 @@ public:
         return rev.substr(0, s.size() - lps.back()) + s;
     }
 };
-#include <bits/stdc++.h>
-using namespace std;
 
 class Solution {
 public:
