@@ -31,8 +31,8 @@ int countSubarraysWithSumKOptimized(vector<int>& nums, int k) {
 }
 
 int main() {
-    vector<int> nums = {1, 2, 3, -2, 5};
-    int k = 5;
+    vector<int> nums = {1, 2, -3, 2, 5};
+    int k = 0;
 
     cout << "Subarray Sum Equals K:\n";
     cout << "Brute Force Count    : " << countSubarraysWithSumKBrute(nums, k) << endl;

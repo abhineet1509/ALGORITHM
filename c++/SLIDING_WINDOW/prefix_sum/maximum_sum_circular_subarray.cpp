@@ -3,6 +3,21 @@ using namespace std;
 
 class Solution {
 public:
+    int maxCircularSubarrayBruteForce(vector<int>& arr) {
+    int n = arr.size();
+    int maxSum = INT_MIN;
+
+    for (int i = 0; i < n; i++) {
+        int sum = 0;
+        for (int len = 0; len < n; len++) {
+            sum += arr[(i + len) % n];
+            maxSum = max(maxSum, sum);
+        }
+    }
+
+    return maxSum;
+}
+
     int maxSubarraySumCircular(vector<int>& nums) {
         int total = 0;
         int max_sum = nums[0], cur_max = 0;

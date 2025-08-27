@@ -1,40 +1,37 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <unistd.h>     // fork, getpid, getppid
+#include <sys/types.h>  // pid_t
+#include <sys/wait.h>   // wait
 using namespace std;
 
-int minPatches(const vector<long long>& A, long long B) {
-    long long miss = 1;    // smallest sum we cannot form
-    int patches = 0;
-    size_t i = 0, n = A.size();
+int main() {
+    int n;
+    pid_t pid;
 
-    while (miss <= B) {
-        if (i < n && A[i] <= miss) {
-            miss += A[i++];
-        } else {
-            miss += miss;
-            patches++;
+    cout << "Enter number of child processes to create: ";
+    cin >> n;
+
+    for (int i = 0; i < n; i++) {
+        pid = fork();  // Create child
+
+        if (pid < 0) {
+            cerr << "Fork failed!" << endl;
+            return 1;
+        }
+        else if (pid == 0) {
+            // Child process
+            cout << "Child " << i+1 
+                 << ": PID = " << getpid() 
+                 << ", Parent PID = " << getppid() << endl;
+            return 0;  // Child exits after printing
+        }
+        else {
+            // Parent continues to next iteration
         }
     }
-    return patches;
-}
 
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
+    // Parent waits for all children
+    while (wait(NULL) > 0);
 
-    // Read the sorted array A from the first line
-    string line;
-    if (!getline(cin, line)) return 0;
-    istringstream iss(line);
-    vector<long long> A;
-    long long x;
-    while (iss >> x) {
-        A.push_back(x);
-    }
-
-    // Then read B
-    long long B;
-    if (!(cin >> B)) return 0;
-
-    cout << minPatches(A, B) << "\n";
     return 0;
 }
