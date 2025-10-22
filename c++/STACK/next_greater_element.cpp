@@ -3,36 +3,71 @@
 #include <stack>
 using namespace std;
 
-vector<int> nextgreaterElement(const vector<int>& arr) {
+vector<int> nextGreaterBrute(vector<int>& arr) {
     int n = arr.size();
-    vector<int> ans(n, -1);
+    vector<int> nge(n, -1);
+    
+    for(int i = 0; i < n; i++) {
+        for(int j = i+1; j < n; j++) {
+            if(arr[j] > arr[i]) {
+                nge[i] = arr[j];
+                break;
+            }
+        }
+    }
+    return nge;
+}
+
+vector<int> nextGreaterStart(vector<int>& arr) {
+    int n = arr.size();
+    vector<int> nge(n, -1);
     stack<int> s;
-    for (int i = 0; i < n; i++) {
-        while (!s.empty() && arr[s.top()] < arr[i]) {
-            ans[s.top()] = arr[i];
+    
+    for(int i = 0; i < n; i++) {
+        while(!s.empty() && arr[i] > arr[s.top()]) {
+            nge[s.top()] = arr[i];
             s.pop();
         }
         s.push(i);
     }
-    return ans;
+    return nge;
+}
+
+vector<int> nextGreaterEnd(vector<int>& arr) {
+    int n = arr.size();
+    vector<int> nge(n, -1);
+    stack<int> s;
+    
+    for(int i = n-1; i >= 0; i--) {
+        while(!s.empty() && s.top() <= arr[i]) s.pop();
+        if(!s.empty()) nge[i] = s.top();
+        s.push(arr[i]);
+    }
+    return nge;
+}
+
+void printVector(vector<int>& v) {
+    for(int x : v) cout << x << " ";
+    cout << endl;
 }
 
 int main() {
-    int n, data;
-    cout << "Enter the number of elements in the stack: ";
-    cin >> n;
-    vector<int> arr(n);
-    cout << "Enter the elements:" << endl;
-    for (int i = 0; i < n; i++) {
-        cin >> arr[i];
-    }
+    vector<int> arr = {4, 5, 2, 25};
 
-    vector<int> ans = nextgreaterElement(arr);
+    cout << "Original Array: ";
+    printVector(arr);
 
-    cout << "Next greater elements: ";
-    for (int i = 0; i < ans.size(); i++) {
-        cout << ans[i] << " ";
-    }
+    vector<int> resBrute = nextGreaterBrute(arr);
+    cout << "Brute Force NGE: ";
+    printVector(resBrute);
+
+    vector<int> resStart = nextGreaterStart(arr);
+    cout << "Start->End Stack NGE: ";
+    printVector(resStart);
+
+    vector<int> resEnd = nextGreaterEnd(arr);
+    cout << "End->Start Stack NGE: ";
+    printVector(resEnd);
+
     return 0;
 }
-

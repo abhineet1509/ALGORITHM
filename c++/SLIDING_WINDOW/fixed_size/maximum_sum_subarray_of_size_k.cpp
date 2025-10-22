@@ -1,8 +1,12 @@
-#include<bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <climits>
 using namespace std;
-int maximumSumSubarray(vector<int> &v, int n, int k) {
+
+pair<int, int> maxMinSumSubarray(vector<int> &v, int n, int k) {
     int sum = 0;
     int maxSum = INT_MIN;
+    int minSum = INT_MAX;
     int i = 0, j = 0;
 
     while (j < n) {
@@ -10,23 +14,23 @@ int maximumSumSubarray(vector<int> &v, int n, int k) {
 
         if (j - i + 1 == k) {
             maxSum = max(maxSum, sum);
-            sum -= v[i];
+            minSum = min(minSum, sum);
+            sum -= v[i]; // slide window
             i++;
         }
         j++;
     }
 
-    return maxSum;
+    return {maxSum, minSum};
 }
+
 int main() {
-    int n;
-    cin >> n;
-    int k;
-    cin >> k;
-    vector<int> v(n);
-    for (int i = 0; i < n; i++) {
-        cin >> v[i];
-    }
-    cout << maximumSumSubarray(v, n, k) << endl;
+    vector<int> v = {2, 1, 5, 1, 3, 2};
+    int k = 3;
+
+    pair<int,int> result = maxMinSumSubarray(v, v.size(), k);
+    cout << "Maximum sum = " << result.first << endl;
+    cout << "Minimum sum = " << result.second << endl;
+
     return 0;
 }

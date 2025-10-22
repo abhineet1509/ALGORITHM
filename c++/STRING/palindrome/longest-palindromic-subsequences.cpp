@@ -6,11 +6,10 @@ int longestPalindromeSubseq(string s) {
     int n = s.length();
     vector<vector<int>> dp(n, vector<int>(n, 0));
 
-    // Base case: every single character is a palindrome
+   
     for (int i = 0; i < n; i++)              // tc O(n^2) sc O(n^2)
         dp[i][i] = 1;
 
-    // Build up from smaller substrings to full string
     for (int len = 2; len <= n; len++) {
         for (int i = 0; i <= n - len; i++) {
             int j = i + len - 1;

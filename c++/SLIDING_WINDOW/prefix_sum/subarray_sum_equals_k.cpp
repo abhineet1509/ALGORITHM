@@ -1,7 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// 🔸 Brute Force: Count number of subarrays with sum = k
 int countSubarraysWithSumKBrute(vector<int>& nums, int k) {
     int count = 0, n = nums.size();
     for (int i = 0; i < n; ++i) {
@@ -14,7 +13,6 @@ int countSubarraysWithSumKBrute(vector<int>& nums, int k) {
     return count;
 }
 
-// 🔸 Optimized: Using prefix sum + hashmap
 int countSubarraysWithSumKOptimized(vector<int>& nums, int k) {
     unordered_map<int, int> prefixSumFreq;
     prefixSumFreq[0] = 1;

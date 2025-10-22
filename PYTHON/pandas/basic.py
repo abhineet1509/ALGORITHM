@@ -1,16 +1,21 @@
-import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
 
-# Load the file (change path/filename as needed)
-df = pd.read_csv("D:\ALGORITHM\PYTHON\pandas\TPO_DATA_2024_25.csv")  # or pd.read_csv("filename.csv")
+# Sample data (5x5 matrix)
+data = np.array([
+    [1, 2, 3, 4, 5],
+    [5, 4, 3, 2, 1],
+    [2, 3, 4, 5, 6],
+    [6, 5, 4, 3, 2],
+    [1, 3, 5, 7, 9]
+])
 
-# Display first 10 rows
-print("First 10 Rows:")
-print(df.head(10))
+# Create a heatmap
+sns.heatmap(data, annot=True, cmap="coolwarm")
 
-# Display summary statistics (only for numeric columns)
-print("\nSummary Statistics:")
-print(df.describe())
+# Add title
+plt.title("Heatmap Example")
 
-# Display full info about the DataFrame
-print("\nDataFrame Info:")
-print(df.info())
+# Show the plot
+plt.show()
