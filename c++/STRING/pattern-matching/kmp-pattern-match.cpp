@@ -6,7 +6,7 @@ using namespace std;
 vector<int> buildLPS(string pattern) {
     int n = pattern.size();
     vector<int> lps(n, 0);
-    int len = 0; // length of the previous longest prefix suffix
+    int len = 0; 
 
     for (int i = 1; i < n;) {
         if (pattern[i] == pattern[len]) {
@@ -15,7 +15,7 @@ vector<int> buildLPS(string pattern) {
             i++;
         } else {
             if (len != 0)
-                len = lps[len - 1]; // fallback
+                len = lps[len - 1];
             else
                 lps[i++] = 0;
         }
@@ -44,7 +44,7 @@ int KMP(string text, string pattern) {
                 i++;
         }
     }
-    return -1; // no match
+    return -1; 
 }
 
 int main() {

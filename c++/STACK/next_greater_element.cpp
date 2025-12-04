@@ -1,73 +1,130 @@
-#include <iostream>
-#include <vector>
-#include <stack>
+#include <bits/stdc++.h>
 using namespace std;
 
-vector<int> nextGreaterBrute(vector<int>& arr) {
-    int n = arr.size();
-    vector<int> nge(n, -1);
-    
-    for(int i = 0; i < n; i++) {
-        for(int j = i+1; j < n; j++) {
-            if(arr[j] > arr[i]) {
-                nge[i] = arr[j];
-                break;
-            }
-        }
-    }
-    return nge;
-}
+// ------------------------ NEXT / PREVIOUS HELPERS ------------------------
 
-vector<int> nextGreaterStart(vector<int>& arr) {
+vector<int> nextGreater(vector<int>& arr) {   // from start
     int n = arr.size();
-    vector<int> nge(n, -1);
+    vector<int> res(n, -1);
     stack<int> s;
-    
-    for(int i = 0; i < n; i++) {
-        while(!s.empty() && arr[i] > arr[s.top()]) {
-            nge[s.top()] = arr[i];
+    for (int i = 0; i < n; i++) {
+        while (!s.empty() && arr[i] > arr[s.top()]) {
+            res[s.top()] = arr[i];
             s.pop();
         }
         s.push(i);
     }
-    return nge;
+    return res;
 }
 
-vector<int> nextGreaterEnd(vector<int>& arr) {
+vector<int> prevGreater(vector<int>& arr) {   // from start
     int n = arr.size();
-    vector<int> nge(n, -1);
+    vector<int> res(n, -1);
     stack<int> s;
-    
-    for(int i = n-1; i >= 0; i--) {
-        while(!s.empty() && s.top() <= arr[i]) s.pop();
-        if(!s.empty()) nge[i] = s.top();
-        s.push(arr[i]);
+    for (int i = 0; i < n; i++) {
+        while (!s.empty() && arr[s.top()] <= arr[i]) s.pop();
+        if (!s.empty()) res[i] = arr[s.top()];
+        s.push(i);
     }
-    return nge;
+    return res;
 }
 
-void printVector(vector<int>& v) {
-    for(int x : v) cout << x << " ";
-    cout << endl;
+vector<int> nextGreaterEnd(vector<int>& arr) {  // from end
+    int n = arr.size();
+    vector<int> res(n, -1);
+    stack<int> s;
+    for (int i = n - 1; i >= 0; i--) {
+        while (!s.empty() && arr[s.top()] <= arr[i]) s.pop();
+        if (!s.empty()) res[i] = arr[s.top()];
+        s.push(i);
+    }
+    return res;
+}
+
+vector<int> prevGreaterEnd(vector<int>& arr) {  // from end
+    int n = arr.size();
+    vector<int> res(n, -1);
+    stack<int> s;
+    for (int i = n - 1; i >= 0; i--) {
+        while (!s.empty() && arr[i] >= arr[s.top()]) {
+            res[s.top()] = arr[i];
+            s.pop();
+        }
+        s.push(i);
+    }
+    return res;
+}
+
+vector<int> nextSmaller(vector<int>& arr) {  // from start
+    int n = arr.size();
+    vector<int> res(n, n);
+    stack<int> s;
+    for (int i = 0; i < n; i++) {
+        while (!s.empty() && arr[i] < arr[s.top()]) {
+            res[s.top()] = i;
+            s.pop();
+        }
+        s.push(i);
+    }
+    return res;
+}
+
+vector<int> prevSmaller(vector<int>& arr) {  // from start
+    int n = arr.size();
+    vector<int> res(n, -1);
+    stack<int> s;
+    for (int i = 0; i < n; i++) {
+        while (!s.empty() && arr[s.top()] >= arr[i]) s.pop();
+        if (!s.empty()) res[i] = s.top();
+        s.push(i);
+    }
+    return res;
+}
+
+vector<int> nextSmallerEnd(vector<int>& arr) {  // from end
+    int n = arr.size();
+    vector<int> res(n, n);
+    stack<int> s;
+    for (int i = n - 1; i >= 0; i--) {
+        while (!s.empty() && arr[s.top()] >= arr[i]) s.pop();
+        if (!s.empty()) res[i] = s.top();
+        s.push(i);
+    }
+    return res;
+}
+
+vector<int> prevSmallerEnd(vector<int>& arr) {  // from end
+    int n = arr.size();
+    vector<int> res(n, -1);
+    stack<int> s;
+    for (int i = n - 1; i >= 0; i--) {
+        while (!s.empty() && arr[i] <= arr[s.top()]) {
+            res[s.top()] = i;
+            s.pop();
+        }
+        s.push(i);
+    }
+    return res;
 }
 
 int main() {
-    vector<int> arr = {4, 5, 2, 25};
+    vector<int> heights = {2, 1, 5, 6, 2, 3};
 
-    cout << "Original Array: ";
-    printVector(arr);
+    cout << "Next Greater: ";
+    for (int x : nextGreater(heights)) cout << x << " ";
+    cout << "\nPrev Greater: ";
+    for (int x : prevGreater(heights)) cout << x << " ";
+    cout << "\nNext Greater (End): ";
+    for (int x : nextGreaterEnd(heights)) cout << x << " ";
+    cout << "\nPrev Greater (End): ";
+    for (int x : prevGreaterEnd(heights)) cout << x << " ";
+    cout << "\nNext Smaller: ";
+    for (int x : nextSmaller(heights)) cout << x << " ";
+    cout << "\nPrev Smaller: ";
+    for (int x : prevSmaller(heights)) cout << x << " ";
+    cout << "\nNext Smaller (End): ";
+    for (int x : nextSmallerEnd(heights)) cout << x << " ";
+    cout << "\nPrev Smaller (End): ";
+    for (int x : prevSmallerEnd(heights)) cout << x << " ";
 
-    vector<int> resBrute = nextGreaterBrute(arr);
-    cout << "Brute Force NGE: ";
-    printVector(resBrute);
-
-    vector<int> resStart = nextGreaterStart(arr);
-    cout << "Start->End Stack NGE: ";
-    printVector(resStart);
-
-    vector<int> resEnd = nextGreaterEnd(arr);
-    cout << "End->Start Stack NGE: ";
-    printVector(resEnd);
-
-    return 0;
 }

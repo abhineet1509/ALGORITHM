@@ -2,32 +2,42 @@
 #include <unordered_map>
 using namespace std;
 
-int longestSubstringWithoutRepeat(string s) {
+pair<int,string> longestSubstringWithoutRepeat(string s) {
     int n = s.size();
     unordered_map<char, int> freq;
+
     int maxLen = 0;
     int start = 0, end = 0;
+    int bestStart = 0;  // to store starting index of best window
 
     while (end < n) {
         freq[s[end]]++;
 
-        // If character repeats, shrink window from the left
+        // if repeated character, shrink window
         while (freq[s[end]] > 1) {
             freq[s[start]]--;
             start++;
         }
 
-        // Update max length
-        maxLen = max(maxLen, end - start + 1);
+        // update best window
+        if (end - start + 1 > maxLen) {
+            maxLen = end - start + 1;
+            bestStart = start;
+        }
+
         end++;
     }
 
-    return maxLen;
+    return {maxLen, s.substr(bestStart, maxLen)};
 }
 
 int main() {
     string s = "abcabcbb";
-    cout << "Length of longest substring without repeating characters: "
-         << longestSubstringWithoutRepeat(s) << endl;
+
+    auto ans = longestSubstringWithoutRepeat(s);
+
+    cout << "Length: " << ans.first << endl;
+    cout << "Substring: " << ans.second << endl;
+
     return 0;
 }

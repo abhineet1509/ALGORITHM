@@ -108,3 +108,4 @@ int main() {
     cout << "Longest Increasing Path Length = " << sol.longestIncreasingPath(matrix) << endl;
     return 0;
 }
+  auto [i, j] = q.front();

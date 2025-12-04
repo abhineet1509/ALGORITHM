@@ -1,4 +1,4 @@
-#include <iostream>
+#include <bits/stdc++.h>
 using namespace std;
 
 struct ListNode {
@@ -7,43 +7,47 @@ struct ListNode {
     ListNode(int x) : val(x), next(nullptr) {}
 };
 
-// Swap nodes in pairs using 3 pointers: prev, first, second
-ListNode* swapPairs(ListNode* head) {
-    if (!head || !head->next) return head;
+ListNode* swapPairsIterative(ListNode* head) {
+    ListNode* dummy = new ListNode(0);
+    dummy->next = head;
+    ListNode* prev = dummy;
 
-    ListNode dummy(0);
-    dummy.next = head;  // Dummy node to simplify edge cases
-    ListNode* prev = &dummy;
+    while (head && head->next) {
+        ListNode* first = head;
+        ListNode* second = head->next;
 
-    while (prev->next && prev->next->next) {
-        ListNode* first = prev->next;
-        ListNode* second = first->next;
-
-        // Perform swap
+        prev->next = second;
         first->next = second->next;
         second->next = first;
-        prev->next = second;
 
-        // Move prev to next pair
         prev = first;
+        head = first->next;
     }
 
-    return dummy.next;
+    return dummy->next;
 }
 
-// Insert at end
-void insertAtEnd(ListNode*& head, int val) {
-    ListNode* newNode = new ListNode(val);
-    if (!head) {
-        head = newNode;
-        return;
+ListNode* swapPairsRecursive(ListNode* head) {
+    if (!head || !head->next)
+        return head;
+
+    ListNode* newHead = head->next;
+    head->next = swapPairsRecursive(newHead->next);
+    newHead->next = head;
+    return newHead;
+}
+
+ListNode* createList(vector<int> vals) {
+    if (vals.empty()) return nullptr;
+    ListNode* head = new ListNode(vals[0]);
+    ListNode* curr = head;
+    for (int i = 1; i < vals.size(); i++) {
+        curr->next = new ListNode(vals[i]);
+        curr = curr->next;
     }
-    ListNode* temp = head;
-    while (temp->next) temp = temp->next;
-    temp->next = newNode;
+    return head;
 }
 
-// Print list
 void printList(ListNode* head) {
     while (head) {
         cout << head->val;
@@ -53,23 +57,21 @@ void printList(ListNode* head) {
     cout << endl;
 }
 
-// Driver code
 int main() {
-    ListNode* head = nullptr;
-
-    // Sample input: 1 -> 2 -> 3 -> 4
-    insertAtEnd(head, 1);
-    insertAtEnd(head, 2);
-    insertAtEnd(head, 3);
-    insertAtEnd(head, 4);
+    vector<int> vals = {1, 2, 3, 4};
+    ListNode* head = createList(vals);
 
     cout << "Original List: ";
     printList(head);
 
-    head = swapPairs(head);
+    ListNode* iterativeResult = swapPairsIterative(head);
+    cout << "After Iterative Swap: ";
+    printList(iterativeResult);
 
-    cout << "Swapped in Pairs: ";
-    printList(head);
+    head = createList(vals);
+    ListNode* recursiveResult = swapPairsRecursive(head);
+    cout << "After Recursive Swap: ";
+    printList(recursiveResult);
 
     return 0;
 }
