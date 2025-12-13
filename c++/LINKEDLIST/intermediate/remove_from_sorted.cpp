@@ -22,7 +22,7 @@ void removeDuplicatesSorted(Node* head) {
         if (curr->data == curr->next->data) {
             Node* temp = curr->next;
             curr->next = curr->next->next;
-            delete temp; // free memory
+            delete temp; 
         } else {
             curr = curr->next;
         }

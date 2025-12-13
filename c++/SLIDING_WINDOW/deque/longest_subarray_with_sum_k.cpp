@@ -19,7 +19,7 @@ int longestSubarrayWithSumAtMostK(vector<int>& nums, int k) {
             while (sum > k) sum -= nums[left++];
             maxLen = max(maxLen, right - left + 1);
         }
-        return maxLen;
+        return maxLen; 
     } else {
         // Prefix sum + deque approach (handles negatives too)
         int n = nums.size();
@@ -40,4 +40,15 @@ int longestSubarrayWithSumAtMostK(vector<int>& nums, int k) {
         }
         return maxLen;
     }
+}
+int main() {
+    int n;
+    long long k;
+    cin >> n >> k;
+
+    vector<int> a(n);
+    for (int i = 0; i < n; i++) cin >> a[i];  //2 -1 4
+
+    cout << longestSubarrayWithSumAtMostK(a, k);
+    return 0;
 }

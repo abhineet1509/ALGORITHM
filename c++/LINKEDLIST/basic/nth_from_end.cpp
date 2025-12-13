@@ -1,85 +1,70 @@
-#include <iostream>
+#include <bits/stdc++.h>
 using namespace std;
 
-class Node {
-public:
-    int data;
-    Node* next;
-    Node(int val) : data(val), next(nullptr) {}
+struct ListNode {
+    int val;
+    ListNode* next;
+    ListNode(int x) : val(x), next(NULL) {}
 };
 
-// Insert at tail
-void insertAtTail(Node*& head, int val) {
-    Node* newNode = new Node(val);
-    if (!head) {
-        head = newNode;
-        return;
+// Build a linked list (stop at -1)
+ListNode* buildList() {
+    cout << "Enter elements (-1 to stop): ";
+    int x;
+    ListNode *head = NULL, *tail = NULL;
+
+    while (cin >> x && x != -1) {
+        ListNode* node = new ListNode(x);
+        if (!head) head = tail = node;
+        else {
+            tail->next = node;
+            tail = node;
+        }
     }
-    Node* temp = head;
-    while (temp->next) temp = temp->next;
-    temp->next = newNode;
+    return head;
 }
 
-// Find length of linked list
-int length(Node* head) {
-    int len = 0;
+// Print the list
+void printList(ListNode* head) {
     while (head) {
-        len++;
+        cout << head->val << " ";
         head = head->next;
     }
-    return len;
+    cout << "\n";
 }
 
-// Find Nth node from end using length
-void nthFromEnd(Node* head, int n) {
-    int len = length(head);
+// Remove Nth node from the end (O(N), one pass)
+ListNode* removeNthFromEnd(ListNode* head, int n) {
+    ListNode dummy(0);
+    dummy.next = head;
 
-    if (n > len) {
-        cout << "List has fewer than " << n << " nodes.\n";
-        return;
+    ListNode *fast = &dummy, *slow = &dummy;
+
+    while (n--) fast = fast->next;  // move fast n steps
+    while (fast->next) {            // move both until fast hits end
+        fast = fast->next;
+        slow = slow->next;
     }
 
-    int steps = len - n;  // steps from head
-    Node* temp = head;
+    slow->next = slow->next->next;  // delete node
 
-    while (steps--) {
-        temp = temp->next;
-    }
-
-    cout << n << "th node from end is: " << temp->data << "\n";
+    return dummy.next;
 }
 
-// Print list
-void printList(Node* head) {
-    while (head) {
-        cout << head->data << " -> ";
-        head = head->next;
-    }
-    cout << "NULL\n";
-}
-
-// Driver
 int main() {
-    Node* head = nullptr;
-    int n, val;
+    // Build linked list
+    ListNode* head = buildList();
 
-    cout << "Enter number of nodes: ";
+    int n;
+    cout << "Enter n (Nth from end to remove): ";
     cin >> n;
 
-    cout << "Enter values: ";
-    for (int i = 0; i < n; i++) {
-        cin >> val;
-        insertAtTail(head, val);
-    }
+    // Remove the Nth node and update head
+    head = removeNthFromEnd(head, n);
 
-    cout << "Enter N: ";
-    int k;
-    cin >> k;
-
-    cout << "Linked List: ";
+    // Display result
+    cout << "List after removal: ";
     printList(head);
-
-    nthFromEnd(head, k);
 
     return 0;
 }

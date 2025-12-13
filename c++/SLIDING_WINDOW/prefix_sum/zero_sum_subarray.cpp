@@ -14,24 +14,32 @@ bool hasZeroSumSubarrayBrute(vector<int>& nums) {
     return false;
 }
 
-// 🔸 Optimized: Using prefix sum + hashset
-bool hasZeroSumSubarrayOptimized(vector<int>& nums) {
-    unordered_set<int> seen;
-    int sum = 0;
-    for (int num : nums) {
-        sum += num;
-        if (sum == 0 || seen.count(sum)) return true;
-        seen.insert(sum);
+long long countZeroSumSubarrays(vector<int>& arr) {
+    unordered_map<long long, long long> mp;
+    long long prefix = 0, count = 0;
+
+    mp[0] = 1; 
+
+    for (int x : arr) {
+        prefix += x;
+
+        if (mp.find(prefix) != mp.end()) {
+            count += mp[prefix];
+        }
+
+        mp[prefix]++;
     }
-    return false;
+
+    return count;
 }
 
 int main() {
-    vector<int> nums = {4, 2, -3, 1, 6};
+    int n;
+    cin >> n;
 
-    cout << "Zero Sum Subarray Exists:\n";
-    cout << "Brute Force Result     : " << (hasZeroSumSubarrayBrute(nums) ? "Yes" : "No") << endl;
-    cout << "Optimized Result       : " << (hasZeroSumSubarrayOptimized(nums) ? "Yes" : "No") << endl;
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++) cin >> arr[i];
 
+    cout << countZeroSumSubarrays(arr) << endl;
     return 0;
 }

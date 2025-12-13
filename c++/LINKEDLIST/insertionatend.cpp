@@ -32,5 +32,7 @@ void tail(Node * &head,int value){
 int main (){
 Node *head=NULL;
 tail(head,1);
+tail(head,2);
+tail(head,3);
 display(head);
 }

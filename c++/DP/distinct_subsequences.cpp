@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
-
+ 
 class Solution {
 public:
     int n, m;
@@ -10,7 +10,7 @@ public:
     int dfs(string &s, string &t, int i, int j) {
         if (j == m) return 1;       // empty t
         if (i == n) return 0;       // empty s
-        if (memo[i][j] != -1) return memo[i][j];
+        if (memo[i][j] != -1) return memo[i][j];                 // Q. BETTER STRING
 
         if (s[i] == t[j])
             return memo[i][j] = dfs(s, t, i + 1, j + 1) + dfs(s, t, i + 1, j);

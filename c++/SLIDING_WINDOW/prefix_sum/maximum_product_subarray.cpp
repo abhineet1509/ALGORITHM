@@ -9,7 +9,7 @@ public:
     // 1. Brute Force: O(n^2)
     int maxProductBruteForce(vector<int>& nums) {
         int n = nums.size();
-        int maxProd = nums[0];
+        int maxProd = nums[0];      // -2 ,-3,-4
 
         for (int i = 0; i < n; i++) {
             int prod = 1;

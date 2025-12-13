@@ -40,8 +40,8 @@ Node* addTwoNumbers(Node* l1, Node* l2) {
 
     while (l1 || l2 || carry) {
         int sum = carry;
-        if (l1) { sum += l1->data; l1 = l1->next; }
-        if (l2) { sum += l2->data; l2 = l2->next; }
+        if (l1) { sum += l1->data; l1 = l1->next; }         //Sum = x + y + carry; carry = sum / 10; node = sum % 10
+        if (l2) { sum += l2->data; l2 = l2->next; }         //Sub = x - y - borrow; if sub < 0 → sub += 10, borrow = 1
 
         carry = sum / 10;
         curr->next = new Node(sum % 10);

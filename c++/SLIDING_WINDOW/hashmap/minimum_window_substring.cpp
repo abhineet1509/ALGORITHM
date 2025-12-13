@@ -31,7 +31,7 @@ public:
         for (int i = 0; i < s.size(); i++) {
             unordered_map<char, int> window;
             for (int j = i; j < s.size(); j++) {
-                window[s[j]]++;
+                window[s[j]]++; 
                 bool valid = true;
                 for (auto &[c, f] : tFreq)
                     if (window[c] < f) { valid = false; break; }

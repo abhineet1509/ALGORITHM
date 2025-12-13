@@ -19,7 +19,7 @@ void insertEnd(Node*& head, int val) {
 
 void printList(Node* head) {
     while (head) {
-        cout << head->data;
+        cout << head->data; 
         if (head->next) cout << " -> ";
         head = head->next;
     }

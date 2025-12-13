@@ -8,7 +8,6 @@ public:
     Node(int val) : data(val), next(nullptr) {}
 };
 
-// Utility to check if k nodes exist from head
 bool hasKNodes(Node* head, int k) {
     while (head && k > 0) {
         head = head->next;
@@ -18,31 +17,30 @@ bool hasKNodes(Node* head, int k) {
 }
 
 Node* reverseKGroup(Node* head, int k) {
-    // Base case: if less than k nodes remain, return as is
+  
     if (!hasKNodes(head, k)) return head;
 
     Node* curr = head;
     Node* prev = nullptr;
     int count = 0;
 
-    // Reverse first k nodes
     while (curr && count < k) {
-        Node* next = curr->next; // defined inside loop
+        Node* next = curr->next; 
         curr->next = prev;
         prev = curr;
         curr = next;
         count++;
     }
 
-    // Recurse for remaining nodes
+   
     if (curr) {
         head->next = reverseKGroup(curr, k);
     }
 
-    return prev; // new head after reversal
+    return prev; 
 }
 
-// Helper to print the list
+
 void printList(Node* head) {
     while (head) {
         cout << head->data << " ";
@@ -51,9 +49,9 @@ void printList(Node* head) {
     cout << endl;
 }
 
-// Driver
+
 int main() {
-    // Creating a sample linked list: 1->2->3->4->5->6->7->8
+  
     Node* head = new Node(1);
     Node* temp = head;
     for (int i = 2; i <= 8; i++) {

@@ -1,61 +1,103 @@
-#include<bits/stdc++.h> 
+#include <bits/stdc++.h>
 using namespace std;
 
-//define our data structure 
-class Node {
-    public:
-    int data;
-    Node *next;
-    Node(int val){
-        data = val;
-        next = nullptr;
-    }
+struct ListNode {
+    int val;
+    ListNode* next;
+    ListNode(int x) : val(x), next(NULL) {}
 };
 
-// create our linkes list 
-void insertattail(Node *&head,int val){
-    if(!head){
-        head = new Node(val);
-        return;
+
+ListNode* segregateOddEvenDummy(ListNode* head) {
+    if (!head) return head;
+
+    ListNode oddDummy(0), evenDummy(0);
+    ListNode *odd = &oddDummy, *even = &evenDummy;
+
+    ListNode* cur = head;
+    while (cur) {
+        if (cur->val % 2 != 0) {
+            odd->next = cur;
+            odd = odd->next;
+        } else {
+            even->next = cur;
+            even = even->next;
+        }
+        cur = cur->next;
     }
-    Node *temp = head;
-    while(temp->next) {
-        temp = temp->next;
-    }
-    temp->next = new Node(val);
+
+    even->next = NULL;         // end even list
+    odd->next = evenDummy.next; // join odd + even
+
+    return oddDummy.next;
 }
-int main(){
-  Node *head = nullptr;
-  insertattail(head,1);
-insertattail(head,2);
-insertattail(head,3);
-insertattail(head,4);
-insertattail(head,5);
-    insertattail(head,6);
-    
-    Node *odd = head;
-    Node *even = head->next;
-    Node *evenHead = even; // store the head of even list
-    
-    while(odd && even && even->next){
-        odd->next = even->next; // link odd nodes
-        odd = odd->next; // move to next odd node
-        even->next = odd ? odd->next : nullptr; // link even nodes
-        even = even->next; // move to next even node
+
+
+ListNode* segregateOddEven(ListNode* head) {
+    if (!head) return head;
+
+    ListNode *oddHead = NULL, *oddTail = NULL;
+    ListNode *evenHead = NULL, *evenTail = NULL;
+
+    ListNode* cur = head;
+
+    while (cur) {
+        if (cur->val % 2 != 0) {         // odd
+            if (!oddHead) oddHead = oddTail = cur;
+            else oddTail = oddTail->next = cur;
+        } else {                         // even
+            if (!evenHead) evenHead = evenTail = cur;
+            else evenTail = evenTail->next = cur;
+        }
+        cur = cur->next;
     }
-    
-    odd->next = evenHead; // link end of odd list to head of even list
-    
-    // Print the modified list
-    Node *temp = head;
-    while(temp){
-        cout << temp->data << " -> ";
-        temp = temp->next;
+
+    if (evenTail) evenTail->next = NULL;
+    if (!oddHead) return evenHead;
+    oddTail->next = evenHead;
+
+    return oddHead;
+}
+
+void printList(ListNode* head) {
+    while (head) {
+        cout << head->val << " ";
+        head = head->next;
     }
-    cout << "NULL" << endl;
-    
+    cout << endl;
+}
+
+
+int main() {
+
+   
+    ListNode* head = new ListNode(1);
+    head->next = new ListNode(2);
+    head->next->next = new ListNode(3);
+    head->next->next->next = new ListNode(4);
+    head->next->next->next->next = new ListNode(5);
+    head->next->next->next->next->next = new ListNode(6);
+
+    cout << "Original List: ";
+    printList(head);
+
+    // Using dummy nodes
+    ListNode* res1 = segregateOddEvenDummy(head);
+    cout << "Using Dummy: ";
+    printList(res1);
+
+    // Recreate list since first function rearranged it
+    head = new ListNode(1);
+    head->next = new ListNode(2);
+    head->next->next = new ListNode(3);
+    head->next->next->next = new ListNode(4);
+    head->next->next->next->next = new ListNode(5);
+    head->next->next->next->next->next = new ListNode(6);
+
+    // Without dummy nodes
+    ListNode* res2 = segregateOddEven(head);
+    cout << "Without Dummy: ";
+    printList(res2);
+
     return 0;
-
-
-
 }
