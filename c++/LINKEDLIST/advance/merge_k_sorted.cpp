@@ -1,4 +1,5 @@
 #include <iostream>
+#include<queue>
 #include <vector>
 using namespace std;
 
@@ -32,6 +33,38 @@ ListNode* mergeKLists(vector<ListNode*>& lists) {
         merged = mergeTwoLists(merged, lists[i]);
     }
     return merged;
+}
+
+struct Compare {
+    bool operator()(ListNode* a, ListNode* b) {
+        return a->val > b->val; // min-heap
+    }
+};
+
+ListNode* mergeKLists(vector<ListNode*>& lists) {
+    priority_queue<ListNode*, vector<ListNode*>, Compare> pq;
+
+    // Step 1: Push head of each list
+    for (auto node : lists) {
+        if (node) pq.push(node);
+    }
+
+    ListNode* dummy = new ListNode(0);
+    ListNode* tail = dummy;
+
+    // Step 2: Extract min and push next
+    while (!pq.empty()) {
+        ListNode* smallest = pq.top();
+        pq.pop();
+
+        tail->next = smallest;
+        tail = tail->next;
+
+        if (smallest->next)
+            pq.push(smallest->next);
+    }
+
+    return dummy->next;
 }
 
 void printList(ListNode* head) {

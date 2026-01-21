@@ -1,7 +1,33 @@
 #include <iostream>
-#include <vector>
 #include <string>
-using namespace std;
+#include<vector>
+#include <climits>
+using namespace std;                   // t.c O(2^n*n)
+
+
+bool isPalindrome(const string &s, int i, int j) {
+    while (i < j) {
+        if (s[i] != s[j]) return false;
+        i++;
+        j--;
+    }
+    return true;
+}
+
+int minCuts(string s, int start) {
+    if (start == s.length()) return 0; 
+
+    int minCut = INT_MAX;
+
+    for (int end = start; end < s.length(); end++) {
+        if (isPalindrome(s, start, end)) {
+            int cuts = 1 + minCuts(s, end + 1);
+            minCut = min(minCut, cuts);
+        }
+    }
+
+    return minCut;
+}
               // tc O(n^2), sc O(n^2)
 int minCut(string s) {
     int n = s.length();
@@ -21,11 +47,14 @@ int minCut(string s) {
 
     return dp[n - 1];
 }
-
 int main() {
     string s;
     cout << "Enter string: ";
     cin >> s;
-    cout << "Minimum cuts needed: " << minCut(s) << endl;
+
+    // One less cut than total parts
+    int result = minCuts(s, 0) - 1;
+    cout << "Minimum cuts to partition into palindromes: " << result << endl;
+
     return 0;
 }

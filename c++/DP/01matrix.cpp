@@ -6,7 +6,7 @@ public:
     vector<vector<int>> updateMatrix(vector<vector<int>>& mat) {
         int n = mat.size();
         int m = mat[0].size();
-        vector<vector<int>> dist(n, vector<int>(m, -1)); // distance array
+        vector<vector<int>> dist(n, vector<int>(m, -1)); 
         queue<pair<int,int>> q;
 
         // Step 1: Initialize queue with all 0 cells
@@ -23,7 +23,6 @@ public:
         vector<int> dx = {-1, 1, 0, 0};
         vector<int> dy = {0, 0, -1, 1};
 
-        // Step 2: BFS
         while(!q.empty()){
             auto cell = q.front(); q.pop();
             int x = cell.first, y = cell.second;

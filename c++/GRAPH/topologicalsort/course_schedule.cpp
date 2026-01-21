@@ -11,7 +11,7 @@ public:
         vector<vector<int>> adj(numCourses);
         vector<int> indegree(numCourses, 0);
 
-        // Build the graph and calculate indegrees
+        
         for (auto& pair : prerequisites) {
             int course = pair[0];
             int prereq = pair[1];
@@ -19,7 +19,6 @@ public:
             indegree[course]++;
         }
 
-        // Push all courses with no prerequisites into the queue
         queue<int> q;
         for (int i = 0; i < numCourses; i++) {
             if (indegree[i] == 0) {
@@ -27,7 +26,7 @@ public:
             }
         }
 
-        int count = 0; // Count of courses that can be taken
+        int count = 0; 
 
         while (!q.empty()) {
             int current = q.front();
@@ -42,7 +41,7 @@ public:
             }
         }
 
-        return count == numCourses; // All courses can be finished
+        return count == numCourses; 
     }
 };
 

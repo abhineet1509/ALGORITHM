@@ -1,9 +1,10 @@
 #include <iostream>
 #include <vector>
 #include <set>
+#include<unordered_map>
 #include <unordered_set>
 using namespace std;
-
+       //perferct number is a number whose sum of divisior  ==  num
 void removeDuplicatesTwoPointer(vector<int>& nums) {
     if (nums.empty()) return;
     int i = 0;
@@ -23,6 +24,16 @@ void removeDuplicatesSet(const vector<int>& nums) {
     cout << "Set Method:\nArray: ";
     for (int x : unique) cout << x << " ";
     cout << "\n";
+}
+
+bool containsNearbyDuplicate(vector<int>& nums, int k) {
+    unordered_map<int, int> lastIndex;
+    for (int i = 0; i < nums.size(); i++) {
+        if (lastIndex.count(nums[i]) && i - lastIndex[nums[i]] <= k)
+            return true;
+        lastIndex[nums[i]] = i;
+    }
+    return false;
 }
 
 void removeDuplicatesUnorderedSet(const vector<int>& nums) {

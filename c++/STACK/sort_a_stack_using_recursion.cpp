@@ -14,9 +14,7 @@ void sortedInsert(stack<int>& st, int element) {
 }
 
 void sortStack(stack<int>& st) {
-    if (st.empty()) {
-        return;
-    }
+    if (st.empty()) return;
     int topElement = st.top();
     st.pop();
     sortStack(st);

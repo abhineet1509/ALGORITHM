@@ -9,6 +9,13 @@ int topDown(int n, vector<int>& dp) {
     return dp[n] = topDown(n - 1, dp) + topDown(n - 2, dp);
 }
 
+int climbStairs(int i, int n, vector<int>& dp) {
+    if (i > n) return 0;
+    if (i == n) return 1;
+    if (dp[i] != -1) return dp[i];
+    return dp[i] = climbStairs(i + 1, n, dp) + climbStairs(i + 2, n, dp);
+}
+
 int bottomUp(int n) {
     if (n <= 1) return 1;
     vector<int> dp(n + 1);

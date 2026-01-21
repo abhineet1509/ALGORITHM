@@ -2,7 +2,7 @@
 using namespace std;
 
 int m, n;
-
+ //island is surrounded by one
 bool dfs(vector<vector<int>>& grid, int i, int j) {
     if(i < 0 || i >= m || j < 0 || j >= n) 
         return false; // touches border → not closed

@@ -1,50 +1,71 @@
-#include <iostream>
-#include <vector>
+#include <bits/stdc++.h>
 using namespace std;
 
-void printSpiral(const vector<vector<int>> &mat) {
-    int top = 0;
-    int left = 0;
-    int bottom = mat.size() - 1;
-    if (bottom < 0) return;
-    int right = mat[0].size() - 1;
+/* Spiral Matrix I */
+vector<int> spiralOrder(vector<vector<int>>& matrix) {
+    int top = 0, bottom = matrix.size() - 1;
+    int left = 0, right = matrix[0].size() - 1;
+    vector<int> res;
 
     while (top <= bottom && left <= right) {
-        // Traverse top row
-        for (int j = left; j <= right; j++)
-            cout << mat[top][j] << " ";
+        for (int i = left; i <= right; i++)
+            res.push_back(matrix[top][i]);
         top++;
 
-        // Traverse right column
         for (int i = top; i <= bottom; i++)
-            cout << mat[i][right] << " ";
+            res.push_back(matrix[i][right]);
         right--;
 
-        // Traverse bottom row
         if (top <= bottom) {
-            for (int j = right; j >= left; j--)
-                cout << mat[bottom][j] << " ";
+            for (int i = right; i >= left; i--)
+                res.push_back(matrix[bottom][i]);
             bottom--;
         }
 
-        // Traverse left column
         if (left <= right) {
             for (int i = bottom; i >= top; i--)
-                cout << mat[i][left] << " ";
+                res.push_back(matrix[i][left]);
             left++;
         }
     }
-    cout << "\n";
+    return res;
+}
+
+/* Spiral Matrix II */
+vector<vector<int>> generateMatrix(int n) {
+    vector<vector<int>> mat(n, vector<int>(n));
+    int top = 0, bottom = n - 1, left = 0, right = n - 1;
+    int num = 1;
+
+    while (top <= bottom && left <= right) {
+        for (int i = left; i <= right; i++)
+            mat[top][i] = num++;
+        top++;
+
+        for (int i = top; i <= bottom; i++)
+            mat[i][right] = num++;
+        right--;
+
+        for (int i = right; i >= left; i--)
+            mat[bottom][i] = num++;
+        bottom--;
+
+        for (int i = bottom; i >= top; i--)
+            mat[i][left] = num++;
+        left++;
+    }
+    return mat;
 }
 
 int main() {
-    vector<vector<int>> mat = {
-        {1,  2,  3,  4},
-        {5,  6,  7,  8},
-        {9, 10, 11, 12},
-        {13,14, 15,16}
+    vector<vector<int>> matrix = {
+        {1,2,3},
+        {4,5,6},
+        {7,8,9}
     };
 
-    cout << "Matrix in Spiral Order:\n";
-    printSpiral(mat);
+    spiralOrder(matrix);
+    generateMatrix(3);
+
+    return 0;
 }

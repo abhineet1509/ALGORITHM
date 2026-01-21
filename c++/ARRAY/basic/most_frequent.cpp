@@ -1,50 +1,83 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// 1. Brute Force Approach
-int mostFrequentBF(vector<int>& arr) {
+/* -------- Brute Force Frequency -------- */
+void frequencyBrute(vector<int>& arr) {
     int n = arr.size();
-    int maxCount = 0, element = arr[0];
+    vector<bool> visited(n, false);
+
+    cout << "\nBrute Force Frequency:\n";
     for (int i = 0; i < n; i++) {
-        int count = 0;
-        for (int j = 0; j < n; j++)
-            if (arr[j] == arr[i]) count++;
-        if (count > maxCount) {
-            maxCount = count;
+        if (visited[i]) continue;
+
+        int cnt = 1;
+        for (int j = i + 1; j < n; j++) {
+            if (arr[i] == arr[j]) {
+                cnt++;
+                visited[j] = true;
+            }
+        }
+        cout << arr[i] << " -> " << cnt << endl;
+    }
+}
+
+/* -------- Brute Force Max Frequency -------- */
+void maxFreqBrute(vector<int>& arr) {
+    int n = arr.size();
+    int maxFreq = 0, element = arr[0];
+
+    for (int i = 0; i < n; i++) {
+        int cnt = 0;
+        for (int j = 0; j < n; j++) {
+            if (arr[i] == arr[j])
+                cnt++;
+        }
+        if (cnt > maxFreq) {
+            maxFreq = cnt;
             element = arr[i];
         }
     }
-    return element;
+    cout << "Max Frequency Element (Brute): " 
+         << element << " (" << maxFreq << " times)\n";
 }
 
-// 2. Hash Map Approach
-int mostFrequentMap(vector<int>& arr) {
-    unordered_map<int,int> freq;
-    int maxCount = 0, element = arr[0];
-    for (int x : arr) freq[x]++;
-    for (auto i: freq) {
-        if (i.second > maxCount) {
-            maxCount = i.second;
-            element = i.first;
+/* -------- STL Frequency -------- */
+void frequencySTL(vector<int>& arr) {
+    unordered_map<int, int> freq;
+
+    for (int x : arr)
+        freq[x]++;
+
+    cout << "\nSTL Frequency (unordered_map):\n";
+    for (auto &p : freq)
+        cout << p.first << " -> " << p.second << endl;
+}
+
+/* -------- STL Max Frequency -------- */
+void maxFreqSTL(vector<int>& arr) {
+    unordered_map<int, int> freq;
+    int maxFreq = 0, element = arr[0];
+
+    for (int x : arr) {
+        freq[x]++;
+        if (freq[x] > maxFreq) {
+            maxFreq = freq[x];
+            element = x;
         }
     }
-    return element;
+    cout << "Max Frequency Element (STL): " 
+         << element << " (" << maxFreq << " times)\n";
 }
 
-// 4. STL max_element Approach
-int mostFrequentSTL(vector<int>& arr) {
-    unordered_map<int,int> freq;
-    for (int x : arr) freq[x]++;
-    return max_element(freq.begin(), freq.end(),
-                       [](auto &a, auto &b){ return a.second < b.second; })->first;
-}
-
+/* -------- Main -------- */
 int main() {
-    vector<int> arr = {1, 3, 2, 3, 4, 3, 2};
+    vector<int> arr = {1, 2, 2, 3, 3, 3, 4};
 
-    cout << "Brute Force: " << mostFrequentBF(arr) << endl;
-    cout << "Hash Map: " << mostFrequentMap(arr) << endl;
-    cout << "STL max_element: " << mostFrequentSTL(arr) << endl;
+    frequencyBrute(arr);
+    maxFreqBrute(arr);
+
+    frequencySTL(arr);
+    maxFreqSTL(arr);
 
     return 0;
 }

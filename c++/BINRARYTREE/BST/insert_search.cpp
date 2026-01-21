@@ -1,6 +1,6 @@
 #include <iostream>
 using namespace std;
-
+ // O(n^2) , O(n)
 // Node structure
 struct Node {
     int data;

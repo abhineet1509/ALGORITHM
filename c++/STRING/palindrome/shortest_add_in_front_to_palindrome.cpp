@@ -7,7 +7,8 @@ public:
         string rev = s;
         reverse(rev.begin(), rev.end());
         string l = s + "#" + rev;
-
+           //we have to add in front so we start to find the longest palindrome from start of string
+           //prefix of s == prefix of rev 
         vector<int> lps(l.size(), 0);
         for (int i = 1; i < l.size(); i++) {
             int len = lps[i - 1];
@@ -45,16 +46,16 @@ public:
             }
         }
 
-        return "";  // This line won't be reached since at least 1-char prefix is always a palindrome
+        return ""; 
     }
 };
 int main() {
     Solution sol;
 
     vector<string> testInputs = {"aacecaaa", "abcd", "race", "aabba", "civic", "abcba"};
-    
+      // aaab
     for (string input : testInputs) {
-        string result = sol.shortestPalindrome(input);
+        string result = sol.shortestPalindrome(input); // abca -> acbabca
         cout << "Input: " << input << " -> Shortest Palindrome: " << result << endl;
     }
 

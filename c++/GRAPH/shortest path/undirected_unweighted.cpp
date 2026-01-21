@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
-
+// dfs can't be to implement it
 // Function to perform BFS and calculate shortest path from src
 void bfsShortestPath(int src, vector<vector<int>> &adj, int n) {
     vector<int> dist(n, -1); // -1 means not visited yet
@@ -22,13 +22,13 @@ void bfsShortestPath(int src, vector<vector<int>> &adj, int n) {
         }
     }
 
-    // Output distances
+ 
     for (int i = 0; i < n; i++) {
         cout << "Shortest path from " << src << " to " << i << " is " << dist[i] << "\n";
     }
 }
 
-// Driver function
+
 int main() {
     int n, m;
     cout << "Enter number of nodes and edges: ";

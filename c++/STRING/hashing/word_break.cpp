@@ -8,7 +8,7 @@ public:
         unordered_set<string> st(wordDict.begin(), wordDict.end());
         vector<bool> dp(n + 1, false);
         dp[0] = true;
-        for (int i = 1; i <= n; i++) {
+        for (int i = 1; i <= n; i++) {                              
             for (int j = 0; j < i; j++) {
                 if (dp[j] && st.count(s.substr(j, i - j))) {
                     dp[i] = true;
@@ -19,6 +19,10 @@ public:
         return dp[n];
     }
 };
+//  n (outer)
+// × n (inner)
+// × n (substr copy)
+// = O(n³)
 
 class RecursiveSolution {
 public:
@@ -46,3 +50,9 @@ int main() {
     cout << (dp.wordBreak(s, wordDict) ? "True" : "False") << endl;
     cout << (rec.wordBreak(s, wordDict) ? "True" : "False") << endl;
 }
+// s = "leetcode"
+// wordDict = ["leet", "code", "le", "etc", "ode", "cat", "dog"]
+// Output: true
+// s = "leetcoode"
+// wordDict = ["leet", "code"]
+// Output: false

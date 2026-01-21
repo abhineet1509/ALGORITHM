@@ -1,5 +1,6 @@
 #include <iostream>
 using namespace std;
+// O(nlogn) n/2logn + n/4log(n)-1+...
 void heapify(int arr[], int n, int i)
 {
     int largest = i;

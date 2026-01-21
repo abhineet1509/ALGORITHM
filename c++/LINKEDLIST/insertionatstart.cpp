@@ -15,10 +15,9 @@ public:
 
 class LinkedList {
 public:
-    // Insert a new node at the head of the list
     void insertAtHead(Node*& head, int val) {
         Node* newNode = new Node(val);
-        newNode->next = head; // Handles both base and general case
+        newNode->next = head; 
         head = newNode;
     }
 

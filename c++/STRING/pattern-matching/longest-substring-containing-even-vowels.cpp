@@ -1,54 +1,38 @@
-#include <iostream>
-#include <unordered_map>
-#include <vector>
-#include <string>
+#include <bits/stdc++.h>
 using namespace std;
 
-// Function to convert parity vector to a string key
-string makeKey(const vector<int>& count) {
-    string key = "";
-    for (int x : count) {
-        key += to_string(x % 2); // only store 0 (even) or 1 (odd)
-    }
-    return key;
-}
+class Solution {
+public:
+    int findTheLongestSubstring(string s) {
+        unordered_map<string, int> mp;
 
-int longestEvenVowelSubstring(string s) {
-    unordered_map<string, int> seen;
-    vector<int> count(5, 0); // Count for a, e, i, o, u
+        string state = "00000";
 
-    string initKey = "00000"; // all even
-    seen[initKey] = -1; // Initial index before start
+        mp[state] = -1;   // base case
+        int ans = 0;
 
-    int maxLen = 0;
+        for (int i = 0; i < s.size(); i++) {
+            char c = s[i];
 
-    for (int i = 0; i < s.length(); i++) {
-        char c = s[i];
-        if (c == 'a') count[0]++;
-        else if (c == 'e') count[1]++;
-        else if (c == 'i') count[2]++;
-        else if (c == 'o') count[3]++;
-        else if (c == 'u') count[4]++;
+            if (c == 'a') state[0] = (state[0] == '0' ? '1' : '0');
+            else if (c == 'e') state[1] = (state[1] == '0' ? '1' : '0');
+            else if (c == 'i') state[2] = (state[2] == '0' ? '1' : '0');
+            else if (c == 'o') state[3] = (state[3] == '0' ? '1' : '0');
+            else if (c == 'u') state[4] = (state[4] == '0' ? '1' : '0');
 
-        string key = makeKey(count);
-
-        if (seen.find(key) != seen.end()) {
-            maxLen = max(maxLen, i - seen[key]);
-        } else {
-            seen[key] = i;
+            if (mp.find(state) != mp.end()) {
+                ans = max(ans, i - mp[state]);
+            } else {
+                mp[state] = i;
+            }
         }
+        return ans;
     }
-
-    return maxLen;
-}
+};
 
 int main() {
-    string s;
-    cout << "Enter string: ";
-    cin >> s;
-
-    int result = longestEvenVowelSubstring(s);
-    cout << "Longest substring length with even vowels: " << result << endl;
-
+    Solution sol;
+    string s = "eleetminicoworoep";
+    cout << sol.findTheLongestSubstring(s); // Output: 13
     return 0;
 }

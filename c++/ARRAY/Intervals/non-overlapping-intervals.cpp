@@ -6,32 +6,47 @@ using namespace std;
 int eraseOverlapIntervals(vector<vector<int>>& intervals) {
     if (intervals.empty()) return 0;
 
-    // Step 1: Sort by end time
-    sort(intervals.begin(), intervals.end(), [](const vector<int>& a, const vector<int>& b){
-        return a[1] < b[1];
-    });
+    // sort by end time
+    sort(intervals.begin(), intervals.end(),
+         [](vector<int>& a, vector<int>& b) {
+             return a[1] < b[1];
+         });
 
-    int count = 1;  // First interval is always picked
+    vector<vector<int>> kept, removed;
+
     int end = intervals[0][1];
+    kept.push_back(intervals[0]);   // first interval always kept
 
-    // Step 2: Count non-overlapping intervals
-    for (int i = 1; i < intervals.size(); ++i) {
+    for (int i = 1; i < intervals.size(); i++) {
         if (intervals[i][0] >= end) {
-            count++;
+            // no overlap → keep
+            kept.push_back(intervals[i]);
             end = intervals[i][1];
+        } else {
+            // overlap → remove
+            removed.push_back(intervals[i]);
         }
     }
 
-    // Step 3: Remove rest
-    return intervals.size() - count;
+    // printing results
+    cout << "Kept intervals:\n";
+    for (auto &v : kept)
+        cout << "[" << v[0] << "," << v[1] << "] ";
+
+    cout << "\n\nRemoved intervals:\n";
+    for (auto &v : removed)
+        cout << "[" << v[0] << "," << v[1] << "] ";
+
+    cout << endl;
+
+    return removed.size();
 }
 
 int main() {
     vector<vector<int>> intervals = {{1,2}, {2,3}, {3,4}, {1,3}};
 
-    int removed = eraseOverlapIntervals(intervals);
+    int removedCount = eraseOverlapIntervals(intervals);
 
-    cout << "Minimum intervals to remove: " << removed << endl;
-
+    cout << "\nMinimum intervals to remove: " << removedCount << endl;
     return 0;
 }

@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 using namespace std;
-
+ // Battleship in a board
 class Solution {
 public:
     void dfs(vector<vector<char>>& grid, int i, int j) {

@@ -5,7 +5,7 @@ class Solution {
 public:
     int findLongestChain(vector<vector<int>>& pairs) {
         sort(pairs.begin(), pairs.end(),
-             [](auto &a, auto &b){ return a[1] < b[1]; });
+             [](auto &a, auto &b){ return a[1] < b[1]; }); //if we sort using starttime it will overlap other interval but if we sort using end time it will assure not to overlap other interval
 
         int cnt = 1;
         int last = pairs[0][1];

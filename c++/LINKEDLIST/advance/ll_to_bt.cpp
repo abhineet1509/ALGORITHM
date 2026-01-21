@@ -1,95 +1,91 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// Definition for singly-linked list
 struct ListNode {
-    int val;
+    int data;
     ListNode* next;
-    ListNode(int x) : val(x), next(nullptr) {}
+    ListNode(int x) {
+        data = x;
+        next = NULL;
+    }
 };
 
-// Definition for binary tree
+
 struct TreeNode {
-    int val;
+    int data;
     TreeNode* left;
     TreeNode* right;
-    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+    TreeNode(int x) {
+        data = x;
+        left = right = NULL;
+    }
 };
 
-class Solution {
-public:
-    // Convert linked list to complete binary tree
-    TreeNode* listToCompleteBinaryTree(ListNode* head) {
-        if (!head) return nullptr;
+/* ---------- Convert Linked List to Binary Tree ---------- */
+TreeNode* LLtoBT(ListNode* head) {
+    if (!head) return NULL;
 
-        TreeNode* root = new TreeNode(head->val);
+    TreeNode* root = new TreeNode(head->data);
+    queue<TreeNode*> q;
+    q.push(root);
+
+    head = head->next;
+
+    while (head) {
+        TreeNode* parent = q.front();
+        q.pop();
+
+        // Left child
+        TreeNode* leftChild = new TreeNode(head->data);
+        parent->left = leftChild;
+        q.push(leftChild);
         head = head->next;
 
-        queue<TreeNode*> q;
-        q.push(root);
-
-        while (head) {
-            TreeNode* parent = q.front();
-            q.pop();
-
-            // Left child
-            TreeNode* left = new TreeNode(head->val);
-            parent->left = left;
-            q.push(left);
-            head = head->next;
-            if (!head) break;
-
-            // Right child
-            TreeNode* right = new TreeNode(head->val);
-            parent->right = right;
-            q.push(right);
+        // Right child
+        if (head) {
+            TreeNode* rightChild = new TreeNode(head->data);
+            parent->right = rightChild;
+            q.push(rightChild);
             head = head->next;
         }
-
-        return root;
     }
-};
 
-// Helper: create linked list from vector
-ListNode* createList(vector<int> vals) {
-    if (vals.empty()) return nullptr;
-    ListNode* head = new ListNode(vals[0]);
-    ListNode* temp = head;
-    for (int i = 1; i < vals.size(); i++) {
-        temp->next = new ListNode(vals[i]);
-        temp = temp->next;
-    }
-    return head;
+    return root;
 }
 
-// Helper: print level order of binary tree
-void printLevelOrder(TreeNode* root) {
+
+void levelOrder(TreeNode* root) {
     if (!root) return;
+
     queue<TreeNode*> q;
     q.push(root);
 
     while (!q.empty()) {
-        int sz = q.size();
-        for (int i = 0; i < sz; i++) {
-            TreeNode* node = q.front(); q.pop();
-            cout << node->val << " ";
-            if (node->left) q.push(node->left);
-            if (node->right) q.push(node->right);
-        }
-        cout << "\n";
+        TreeNode* curr = q.front();
+        q.pop();
+
+        cout << curr->data << " ";
+
+        if (curr->left) q.push(curr->left);
+        if (curr->right) q.push(curr->right);
     }
 }
 
-// Main function to test
 int main() {
-    vector<int> vals = {1, 2, 3, 4, 5, 6, 7, 8};
-    ListNode* head = createList(vals);
+    // Create Linked List: 1 -> 2 -> 3 -> 4 -> 5 -> 6
+    ListNode* head = new ListNode(1);
+    head->next = new ListNode(2);
+    head->next->next = new ListNode(3);
+    head->next->next->next = new ListNode(4);
+    head->next->next->next->next = new ListNode(5);
+    head->next->next->next->next->next = new ListNode(6);
 
-    Solution s;
-    TreeNode* root = s.listToCompleteBinaryTree(head);
+    // Convert LL to Binary Tree
+    TreeNode* root = LLtoBT(head);
 
-    cout << "Level order of the Complete Binary Tree:\n";
-    printLevelOrder(root);
+    // Print Level Order of Tree
+    cout << "Level Order Traversal of Binary Tree:\n";
+    levelOrder(root);
 
     return 0;
 }

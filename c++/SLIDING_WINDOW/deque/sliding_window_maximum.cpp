@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <deque>
+#include<set>
 using namespace std;
 
 // Function to find maximum of all subarrays of size k
@@ -27,6 +28,40 @@ vector<int> maxSlidingWindow(vector<int>& arr, int k) {
     }
 
     return res;
+}
+
+vector<double> medianSlidingWindow(vector<int>& nums, int k) {
+    vector<double> medians;
+    multiset<int> window;
+    auto mid = window.begin();
+
+    for (int i = 0; i < nums.size(); i++) {
+        if (i >= k) {
+            // Remove the outgoing element
+            if (nums[i - k] <= *mid) mid--;
+            window.erase(window.lower_bound(nums[i - k]));
+        }
+
+        // Insert the new element
+        window.insert(nums[i]);
+        if (i == 0) mid = window.begin();
+        else {
+            if (nums[i] < *mid) mid--;
+            else if (nums[i] >= *mid && i - k >= 0 && nums[i - k] <= *mid) mid++;
+        }
+
+        if (i >= k - 1) {
+            if (k % 2 == 1)
+                medians.push_back(*next(window.begin(), k / 2));
+            else {
+                auto it1 = next(window.begin(), k / 2 - 1);
+                auto it2 = next(window.begin(), k / 2);
+                medians.push_back(((double)(*it1) + *it2) / 2.0);
+            }
+        }
+    }
+
+    return medians;
 }
 
 int main() {

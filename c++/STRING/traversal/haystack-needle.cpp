@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 using namespace std;
-
+ //O(n*m)
 int strStr(string haystack, string needle) {
     int m = haystack.size();
     int n = needle.size();

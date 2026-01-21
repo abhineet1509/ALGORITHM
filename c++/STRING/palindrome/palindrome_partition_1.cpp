@@ -40,7 +40,7 @@ public:
 // Example usage
 int main() {
     Solution sol;
-    string s = "aab";
+    string s = "aaab";
     vector<vector<string>> partitions = sol.partition(s);
     
     for (auto& part : partitions) {

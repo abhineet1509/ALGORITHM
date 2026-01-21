@@ -3,9 +3,7 @@ using namespace std;
 
 const int INF = 1e9;
 
-// ---------------------------------------------------------
-// 1. Pure Recursion
-// ---------------------------------------------------------
+
 int rec(int i, int amount, vector<int>& coins) {
     if (amount == 0) return 0;
     if (i == coins.size() || amount < 0) return INF;
@@ -18,9 +16,6 @@ int rec(int i, int amount, vector<int>& coins) {
     return min(take, skip);
 }
 
-// ---------------------------------------------------------
-// 2. Top-Down DP (Memoization)
-// ---------------------------------------------------------
 int topdown(int i, int amount, vector<int>& coins, vector<vector<int>>& dp) {
     if (amount == 0) return 0;
     if (i == coins.size() || amount < 0) return INF;
@@ -32,9 +27,7 @@ int topdown(int i, int amount, vector<int>& coins, vector<vector<int>>& dp) {
     return dp[i][amount] = min(take, skip);
 }
 
-// ---------------------------------------------------------
-// 3. Bottom-Up DP
-// ---------------------------------------------------------
+
 int bottomup(vector<int>& coins, int amount) {
     int n = coins.size();
     vector<vector<int>> dp(n + 1, vector<int>(amount + 1, INF));
@@ -55,9 +48,6 @@ int bottomup(vector<int>& coins, int amount) {
     return dp[0][amount];
 }
 
-// ---------------------------------------------------------
-// MAIN
-// ---------------------------------------------------------
 int main() {
     vector<int> coins = {1, 2, 5};
     int amount = 11;

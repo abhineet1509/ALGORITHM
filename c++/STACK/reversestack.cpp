@@ -1,6 +1,6 @@
 #include <iostream>
 #include <stack>
-
+ // O(N^2) O(N)
 using namespace std;
 void insertAtBottom(stack<int> &s, int value) {
     if (s.empty()) {

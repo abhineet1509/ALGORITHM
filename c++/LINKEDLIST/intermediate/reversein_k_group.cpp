@@ -37,7 +37,7 @@ Node* reverseKGroup(Node* head, int k) {
         head->next = reverseKGroup(curr, k);
     }
 
-    return prev; 
+    return prev; // new head
 }
 
 

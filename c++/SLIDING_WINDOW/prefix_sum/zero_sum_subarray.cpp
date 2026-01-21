@@ -33,6 +33,27 @@ long long countZeroSumSubarrays(vector<int>& arr) {
     return count;
 }
 
+void printZeroSumSubarrays(vector<int> &arr) {
+    unordered_map<int, vector<int>> prefixSumMap;
+    int sum = 0;
+    prefixSumMap[0].push_back(-1);
+
+    for (int i = 0; i < arr.size(); i++) {
+        sum += arr[i];
+
+        if (prefixSumMap.find(sum) != prefixSumMap.end()) {
+            for (int startIndex : prefixSumMap[sum]) {
+                cout << "Subarray found from index " << startIndex + 1 << " to " << i << ": ";
+                for (int k = startIndex + 1; k <= i; k++)
+                    cout << arr[k] << " ";
+                cout << endl;
+            }
+        }
+
+        prefixSumMap[sum].push_back(i);
+    }
+}
+
 int main() {
     int n;
     cin >> n;

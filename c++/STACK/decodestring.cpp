@@ -2,31 +2,35 @@
 #include <stack>
 using namespace std;
 
-string decodeString(string s) {
-    stack<int> countStack;
-    stack<string> strStack;
-    string curr = "";
-    int k = 0;
+ string decodeString(string s) {
+        stack<string> st;
+        stack<int> num;
+        string curr = "";
+        int k = 0;
 
-    for (char ch : s) {
-        if (isdigit(ch)) {
-            k = k * 10 + (ch - '0');
-        } else if (ch == '[') {
-            countStack.push(k);
-            strStack.push(curr);
-            k = 0;
-            curr = "";
-        } else if (ch == ']') {
-            string temp = curr;
-            curr = strStack.top(); strStack.pop();
-            int count = countStack.top(); countStack.pop();
-            while (count--) curr += temp;
-        } else {
-            curr += ch;
+        for (char c : s) {
+            if (isdigit(c)) {
+                k = k * 10 + (c - '0');  // number can also be 19 , 15
+            }
+            else if (c == '[') {
+                num.push(k);           // 3 -> 2 , ""->"a"
+                st.push(curr);
+                k = 0;
+                curr = "";
+            }
+            else if (c == ']') {
+                int repeat = num.top(); num.pop();  
+                string prev = st.top(); st.pop();
+
+                while (repeat--) prev += curr;
+                curr = prev;
+            }
+            else {
+                curr += c;
+            }
         }
+        return curr;
     }
-    return curr;
-}
 
 int main() {
     string input = "3[a2[c]]";

@@ -1,39 +1,50 @@
-#include<iostream>
+#include <bits/stdc++.h>
 using namespace std;
-class Node{
-    public:
-    int data;
-    Node *left,*right;
-    Node(int value){
-        data=value;
-        left=right=NULL;
-    }
 
+// Binary Tree Node
+struct Node {
+    int data;
+    Node* left;
+    Node* right;
+
+    Node(int val) {
+        data = val;
+        left = right = NULL;
+    }
 };
-void sum(Node*root,int &count){
-if(root==NULL){
-    return;
+
+// Sum of all nodes in binary tree
+int sumOfTree(Node* root) {
+    if (root == NULL) return 0;
+    return root->data + sumOfTree(root->left) + sumOfTree(root->right);
 }
-count+=root->data;
-sum(root->left,count);
-sum(root->right,count);
+
+// Sum of leaf nodes in binary tree
+int sumOfLeaves(Node* root) {
+    if (root == NULL) return 0;
+    if (root->left == NULL && root->right == NULL)
+        return root->data;
+    return sumOfLeaves(root->left) + sumOfLeaves(root->right);
 }
-Node * BinaryTree(){
-    int x;
-    cin>>x;
-    if(x==-1)  return NULL;
-    Node *temp = new Node(x);
-    cout<<"enter the left child of"<<x<<endl;
-    temp->left = BinaryTree();
-    cout<<"enter the right child of"<<x<<endl;
-    temp->right = BinaryTree();
-    return temp;
+
+int main() {
+    /*
+            10
+           /  \
+          5    15
+         / \     \
+        3   7     18
+    */
+
+    Node* root = new Node(10);
+    root->left = new Node(5);
+    root->right = new Node(15);
+    root->left->left = new Node(3);
+    root->left->right = new Node(7);
+    root->right->right = new Node(18);
+
+    cout << "Sum of Binary Tree: " << sumOfTree(root) << endl;
+    cout << "Sum of Leaf Nodes: " << sumOfLeaves(root) << endl;
+
+    return 0;
 }
-int main(){
-    cout<<"enter the root node:";
-    Node *root;
-    root = BinaryTree();
-    int count=0;
-    sum(root,count);
-    cout<<count;
-   }
